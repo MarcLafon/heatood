@@ -1,0 +1,110 @@
+ID_NAME: CIFAR10
+data_root: ${join:${cwd:x},datasets}
+features_dataset: False
+subset:
+  proportion:
+  number_labels:
+  random_state: 0
+
+ID:
+  train:
+    _target_: torchvision.datasets.CIFAR10
+    root: ${join:${dataset.data_root},CIFAR-10/}
+    train: True
+    download: True
+
+  test:
+    _target_: torchvision.datasets.CIFAR10
+    root: ${join:${dataset.data_root},CIFAR-10/}
+    train: False
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+OOD:
+  CIFAR-100:
+    _target_: torchvision.datasets.CIFAR100
+    root: ${join:${dataset.data_root},CIFAR-100/}
+    train: False
+    download: True
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+  TinyImageNet:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},tiny-imagenet-200/test}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: [32, 32]
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+  LSUN:
+    _target_: heat.datasets.LSUN
+    root: ${join:${dataset.data_root},LSUN}
+    classes: val
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: [32, 32]
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+  Places365:
+    _target_: torchvision.datasets.Places365
+    root: ${join:${dataset.data_root},Places365/}
+    split: val
+    small: True
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: [32, 32]
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+  Textures:
+    _target_: heat.datasets.DTD
+    root: ${join:${dataset.data_root},Textures/}
+    split: test
+    download: True
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: [32, 32]
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]
+
+  SVHN:
+    _target_: torchvision.datasets.SVHN
+    root: ${join:${dataset.data_root},SVHN}
+    split: test
+    download: True
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.4914, 0.4822, 0.4465]
+          std: [0.2470, 0.2435, 0.2616]

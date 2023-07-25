@@ -1,0 +1,42 @@
+n_epochs: 10
+
+model:
+  _target_: heat.ebm.HybridEnergyModel
+  hidden_dim: 1024
+  n_hidden_layers: 4
+  temperature: 1e0
+  temperature_prior: 5e2
+  proposal_type: random_normal
+  use_base_dist: True
+  sample_from_batch_statistics: False
+  steps: 40
+  step_size_start: 1e3
+  step_size_end: ${mult:${ebm.model.step_size_start},0.1}
+  eps_start: 1e-3
+  eps_end: ${mult:${ebm.model.eps_start},0.1}
+  sgld_relu: True
+  use_sgld: True
+  use_svgd: False
+  use_spectral_norm: False
+  use_pcd: False
+  restart_prob: 0.5
+  reduce_width: True
+  base_dist:
+    _target_: heat.scorers.EnergyLogitsScorer
+    features_dataset: ${dataset.features_dataset}
+
+loss:
+  _target_: heat.ebm.ContrastiveDivergenceLoss
+  l2_coef: 20.
+  eps_data: 1e-4
+
+optimizer:
+  opt:
+    _target_: torch.optim.Adam
+    lr: 1e-5
+    betas: [0, 0.999]
+
+  sch:
+    _target_: torch.optim.lr_scheduler.MultiStepLR
+    milestones: [1000]
+    gamma: 0.9

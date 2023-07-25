@@ -1,0 +1,7 @@
+loss: sup
+arch: resnet34
+dim: 512
+
+net:
+  _target_: heat.ebm.create_backbone
+  model_id: cifar10-resnet34-multisteplr_randomresizedcrop_epoch_199.ckpt

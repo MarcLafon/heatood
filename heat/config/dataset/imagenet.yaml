@@ -1,0 +1,88 @@
+ID_NAME: Imagenet
+data_root: ${join:${cwd:x},datasets}
+features_dataset: False
+subset:
+  proportion:
+  number_labels:
+  random_state: 0
+
+ID:
+  train:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},Imagenet/train}
+
+  test:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},Imagenet/val}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 224
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.485, 0.456, 0.406]
+          std: [0.229, 0.224, 0.225]
+
+OOD:
+  iNaturalist:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},ood_data/iNaturalist}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 224
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.485, 0.456, 0.406]
+          std: [0.229, 0.224, 0.225]
+
+  SUN:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},ood_data/SUN}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 224
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.485, 0.456, 0.406]
+          std: [0.229, 0.224, 0.225]
+
+  Places:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},ood_data/Places}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 224
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.485, 0.456, 0.406]
+          std: [0.229, 0.224, 0.225]
+
+  Textures:
+    _target_: torchvision.datasets.ImageFolder
+    root: ${join:${dataset.data_root},ood_data/dtd/images}
+    transform:
+      _target_: torchvision.transforms.Compose
+      transforms:
+        - _target_: torchvision.transforms.Resize
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 224
+        - _target_: torchvision.transforms.ToTensor
+        - _target_: torchvision.transforms.Normalize
+          mean: [0.485, 0.456, 0.406]
+          std: [0.229, 0.224, 0.225]

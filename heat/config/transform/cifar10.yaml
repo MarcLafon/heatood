@@ -1,0 +1,6 @@
+_target_: torchvision.transforms.Compose
+transforms:
+  - _target_: torchvision.transforms.ToTensor
+  - _target_: torchvision.transforms.Normalize
+    mean: [0.4914, 0.4822, 0.4465]
+    std: [0.2470, 0.2435, 0.2616]

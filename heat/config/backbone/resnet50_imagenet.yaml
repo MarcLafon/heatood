@@ -1,0 +1,7 @@
+loss: sup
+arch: resnet50
+dim: 2048
+
+net:
+  _target_: heat.ebm.create_backbone
+  model_id: imagenet-resnet50-__pretrained__

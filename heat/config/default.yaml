@@ -1,0 +1,66 @@
+exp_name: ???
+log_dir: ood_experiments/${dataset.ID_NAME}/${backbone.arch}_${backbone.loss}/${exp_name}
+batch_size: 256
+n_epochs: ${ebm.n_epochs}
+optimizer: ${ebm.optimizer}
+
+layer_names: ['layer4']
+n_layers:  ${len:${layer_names}}
+
+print_freq: 10
+save_freq: 1
+eval_freq: 2
+eval_max_iter: 40
+eval_prior: False
+
+is_openood: False
+
+distributed: ${is_cluster}
+is_cluster: False
+accum_iter: 1
+
+normalize: True
+pooling: 'avg'
+use_pca: False
+pca_n_principal_components: 128
+pca_n_last_components: 0
+pca_whiten: False
+
+load_from_checkpoint: False
+ckpt_path:
+
+dataloader:
+  train:
+    _target_: torch.utils.data.DataLoader
+    batch_size: ${batch_size}
+    pin_memory: True
+    num_workers: 5
+    shuffle: True
+    drop_last: True
+    persistent_workers: True
+
+  test:
+    _target_: torch.utils.data.DataLoader
+    batch_size: 256
+    pin_memory: True
+    num_workers: 5
+    shuffle: True
+    persistent_workers: True
+
+defaults:
+  - dataset: cifar10
+  - transform: cifar10
+  - backbone: resnet34_c10
+  - ebm: heat_gmm_c10
+
+  - _self_
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+hydra:
+  run:
+    dir: ${log_dir}
+
+  sweep:
+    dir: ood_experiments/${dataset.ID_NAME}/${backbone.arch}_${backbone.loss}
+    subdir: ${exp_name}
